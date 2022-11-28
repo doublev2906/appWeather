@@ -173,8 +173,32 @@ class _HomePageState extends State<HomePage> {
                                           );
                                         },
                                         separatorBuilder: (_,i)=>const SizedBox(height: 4,),
-                                        itemCount: 12),
-                                  )
+                                        itemCount: 6),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      InkWell(
+                                          onTap: (){
+
+                                          },
+                                          
+                                          child: Container(
+                                            margin: EdgeInsets.only(top: 10),
+                                            padding: EdgeInsets.symmetric(horizontal: 80,vertical: 12),
+                                            decoration: BoxDecoration(
+                                              color: Colors.black12,
+                                              borderRadius: BorderRadius.circular(16)
+                                            ),
+                                            child: Text(
+                                              "15 days weather forcast"
+                                            ),
+                                          )),
+                                    ],
+                                  ),
+                                  const SizedBox(height:36),
+                                  Text("Weather detail")
+                                  
                                 ],
                               ),
                             )
@@ -194,21 +218,17 @@ class _HomePageState extends State<HomePage> {
           }),
     );
   }
-}
 
-class _BodyWidget extends StatelessWidget {
-  final Map<String, dynamic> data;
-
-  const _BodyWidget({Key? key, required this.data}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-        ),
-        body: const Center(
-          child: const Text("Hello"),
-        ));
+  buildWeatherDetailWidget(String title, String content){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(title),
+        Text(content)
+      ],
+    );
   }
+
 }
+
+
