@@ -1,5 +1,11 @@
+import 'dart:convert';
+
 import 'package:app_weather/config/build_config.dart';
 import 'package:app_weather/service/remote_api_service.dart';
+
+import 'package:http/http.dart' as http;
+
+import '../model/city_model.dart';
 
 class BaseApiService extends RemoteApiService{
 
@@ -26,13 +32,16 @@ class BaseApiService extends RemoteApiService{
   }
 
 
-  Future<Map<String,dynamic>> getCurrentLocation({required String lat, required String lon, String unit = "metric"}) async {
-    try{
-      final response = await dio.get("data/2.5/weather?lat=$lat&lon=$lon&appid=${BuildConfig.apiKey1}&units=$unit");
-      return response.data as Map<String,dynamic>;
-    }catch(e){
-      throw handlerError(e);
-    }
+  Future<List<CityModel>> searchCitys({required String name}) async {
+    String url = "https://api.api-ninjas.com/v1/city?name=$name";
+    final headers = {
+      "X-Api-Key":"x95in2nTxd0IoZ/2ssFWEA==EhTiU9F6pFxo28RX"
+    };
+    final response = await http.get(Uri.parse(url),headers: headers);
+    final body = response.body;
+    final jsonBody = jsonDecode(body);
+    return (jsonBody as List).map((e) => CityModel.fromJson(e)).toList();
+
   }
 
   BaseApiService({bool check = true}) : super(check: check) ;

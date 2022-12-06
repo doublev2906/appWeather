@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> {
               final listHours = calculateHourArray(mData);
               return DefaultTextStyle(
                 style: const TextStyle(color: Colors.white),
+
                 child: Container(
                   color: Colors.white,
                   child: Stack(
@@ -273,20 +274,42 @@ class _HomePageState extends State<HomePage> {
                                         InkWell(
                                             onTap: () {},
                                             child: Container(
-                                              margin: EdgeInsets.only(top: 10),
-                                              padding: EdgeInsets.symmetric(
+                                              margin: const EdgeInsets.only(top: 10),
+                                              padding: const EdgeInsets.symmetric(
                                                   horizontal: 80, vertical: 12),
                                               decoration: BoxDecoration(
                                                   color: Colors.black12,
                                                   borderRadius:
                                                   BorderRadius.circular(16)),
                                               child:
-                                              Text("15 days weather forcast"),
+                                              const Text("15 days weather forcast"),
                                             )),
                                       ],
                                     ),
                                     const SizedBox(height: 36),
-                                    Text("Weather detail")
+                                    const Text("Weather detail",style: TextStyle(fontWeight: FontWeight.w700),),
+                                    SizedBox(
+                                      child: GridView(
+                                        shrinkWrap: true,
+                                        physics: const ScrollPhysics(),
+                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            childAspectRatio: 2
+                                        ),
+                                        children: [
+                                          buildWeatherDetailWidget("Feel like", "29°C"),
+                                          buildWeatherDetailWidget("Humidity", "90%"),
+                                          buildWeatherDetailWidget("SSW wind", "Level 1"),
+                                          buildWeatherDetailWidget("UV", "Very weak"),
+                                          buildWeatherDetailWidget("Visibility", "9 km"),
+                                          buildWeatherDetailWidget("Air pressure", "1011 hPa"),
+                                          buildWeatherDetailWidget("Change of rain", "3%"),
+                                          buildWeatherDetailWidget("Sunrise", "06:16"),
+                                          buildWeatherDetailWidget("Sunset", "17:13"),
+                                        ],
+
+                                      ),
+                                    )
                                   ],
                                 ),
                               ))
@@ -297,11 +320,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             },
-                loading: () =>
-                const Center(
-                  child: CircularProgressIndicator(),
-                ),
-                error: (err) => const SizedBox(),
+                loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                error: (err) => Center(child: Text(err.toString()),),
                 nonePerMission: (String message) => const SizedBox());
           }),
     );
@@ -322,10 +344,21 @@ class _HomePageState extends State<HomePage> {
     return dateTimes;
   }
 
-  buildWeatherDetailWidget(String title, String content) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [Text(title), Text(content)],
+
+  buildWeatherDetailWidget(String title, String content){
+    return SizedBox(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(title,style: const TextStyle(
+            fontWeight: FontWeight.w300
+          ),),
+          Text(content,style: const TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.w400
+          ),)
+        ],
+      ),
     );
   }
 }

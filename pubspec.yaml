@@ -39,6 +39,7 @@ dependencies:
   freezed_annotation:
 
   intl:
+  http:
 
   pretty_dio_logger:
 
