@@ -53,8 +53,6 @@ class _HomePageState extends State<HomePage> {
                         slivers: [
                           SliverLayoutBuilder(builder: (context, mConstraints) {
                             final scrolled = mConstraints.scrollOffset > (180-kToolbarHeight);
-                            print(
-                                " $scrolled ${mConstraints.scrollOffset} ${ kToolbarHeight}");
                             return SliverAppBar(
                                 expandedHeight: 180.0,
                                 floating: false,
@@ -197,7 +195,29 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                   const SizedBox(height:36),
-                                  Text("Weather detail")
+                                  Text("Weather detail",style: TextStyle(fontWeight: FontWeight.w700),),
+                                  SizedBox(
+                                    child: GridView(
+                                      shrinkWrap: true,
+                                      physics: const ScrollPhysics(),
+                                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 2
+                                      ),
+                                      children: [
+                                        buildWeatherDetailWidget("Feel like", "29°C"),
+                                        buildWeatherDetailWidget("Humidity", "90%"),
+                                        buildWeatherDetailWidget("SSW wind", "Level 1"),
+                                        buildWeatherDetailWidget("UV", "Very weak"),
+                                        buildWeatherDetailWidget("Visibility", "9 km"),
+                                        buildWeatherDetailWidget("Air pressure", "1011 hPa"),
+                                        buildWeatherDetailWidget("Change of rain", "3%"),
+                                        buildWeatherDetailWidget("Sunrise", "06:16"),
+                                        buildWeatherDetailWidget("Sunset", "17:13"),
+                                      ],
+
+                                    ),
+                                  )
                                   
                                 ],
                               ),
@@ -213,19 +233,26 @@ class _HomePageState extends State<HomePage> {
                 loading: () => const Center(
                       child: CircularProgressIndicator(),
                     ),
-                error: (err) => const SizedBox(),
+                error: (err) => Center(child: Text(err.toString()),),
                 nonePerMission: (String message) => const SizedBox());
           }),
     );
   }
 
   buildWeatherDetailWidget(String title, String content){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(title),
-        Text(content)
-      ],
+    return SizedBox(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(title,style: TextStyle(
+            fontWeight: FontWeight.w300
+          ),),
+          Text(content,style: TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.w400
+          ),)
+        ],
+      ),
     );
   }
 
