@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(Map<String, dynamic> data) $default, {
+    TResult Function(Map<String, dynamic> data, Placemark location) $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
     required TResult Function(String message) nonePerMission,
@@ -26,7 +26,7 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(Map<String, dynamic> data)? $default, {
+    TResult Function(Map<String, dynamic> data, Placemark location)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     TResult Function(String message)? nonePerMission,
@@ -34,7 +34,7 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Map<String, dynamic> data)? $default, {
+    TResult Function(Map<String, dynamic> data, Placemark location)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     TResult Function(String message)? nonePerMission,
@@ -88,7 +88,7 @@ abstract class _$$HomeStateDataCopyWith<$Res> {
   factory _$$HomeStateDataCopyWith(
           _$HomeStateData value, $Res Function(_$HomeStateData) then) =
       __$$HomeStateDataCopyWithImpl<$Res>;
-  $Res call({Map<String, dynamic> data});
+  $Res call({Map<String, dynamic> data, Placemark location});
 }
 
 /// @nodoc
@@ -104,12 +104,17 @@ class __$$HomeStateDataCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? data = freezed,
+    Object? location = freezed,
   }) {
     return _then(_$HomeStateData(
       data == freezed
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
+      location == freezed
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as Placemark,
     ));
   }
 }
@@ -117,7 +122,8 @@ class __$$HomeStateDataCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$HomeStateData implements HomeStateData {
-  const _$HomeStateData(final Map<String, dynamic> data) : _data = data;
+  const _$HomeStateData(final Map<String, dynamic> data, this.location)
+      : _data = data;
 
   final Map<String, dynamic> _data;
   @override
@@ -127,8 +133,11 @@ class _$HomeStateData implements HomeStateData {
   }
 
   @override
+  final Placemark location;
+
+  @override
   String toString() {
-    return 'HomeState(data: $data)';
+    return 'HomeState(data: $data, location: $location)';
   }
 
   @override
@@ -136,12 +145,15 @@ class _$HomeStateData implements HomeStateData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$HomeStateData &&
-            const DeepCollectionEquality().equals(other._data, _data));
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            const DeepCollectionEquality().equals(other.location, location));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_data),
+      const DeepCollectionEquality().hash(location));
 
   @JsonKey(ignore: true)
   @override
@@ -151,36 +163,36 @@ class _$HomeStateData implements HomeStateData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(Map<String, dynamic> data) $default, {
+    TResult Function(Map<String, dynamic> data, Placemark location) $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
     required TResult Function(String message) nonePerMission,
   }) {
-    return $default(data);
+    return $default(data, location);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(Map<String, dynamic> data)? $default, {
+    TResult Function(Map<String, dynamic> data, Placemark location)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     TResult Function(String message)? nonePerMission,
   }) {
-    return $default?.call(data);
+    return $default?.call(data, location);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Map<String, dynamic> data)? $default, {
+    TResult Function(Map<String, dynamic> data, Placemark location)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     TResult Function(String message)? nonePerMission,
     required TResult orElse(),
   }) {
     if ($default != null) {
-      return $default(data);
+      return $default(data, location);
     }
     return orElse();
   }
@@ -224,10 +236,12 @@ class _$HomeStateData implements HomeStateData {
 }
 
 abstract class HomeStateData implements HomeState {
-  const factory HomeStateData(final Map<String, dynamic> data) =
+  const factory HomeStateData(
+          final Map<String, dynamic> data, final Placemark location) =
       _$HomeStateData;
 
   Map<String, dynamic> get data;
+  Placemark get location;
   @JsonKey(ignore: true)
   _$$HomeStateDataCopyWith<_$HomeStateData> get copyWith =>
       throw _privateConstructorUsedError;
@@ -274,7 +288,7 @@ class _$HomeStateLoading implements HomeStateLoading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(Map<String, dynamic> data) $default, {
+    TResult Function(Map<String, dynamic> data, Placemark location) $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
     required TResult Function(String message) nonePerMission,
@@ -285,7 +299,7 @@ class _$HomeStateLoading implements HomeStateLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(Map<String, dynamic> data)? $default, {
+    TResult Function(Map<String, dynamic> data, Placemark location)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     TResult Function(String message)? nonePerMission,
@@ -296,7 +310,7 @@ class _$HomeStateLoading implements HomeStateLoading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Map<String, dynamic> data)? $default, {
+    TResult Function(Map<String, dynamic> data, Placemark location)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     TResult Function(String message)? nonePerMission,
@@ -414,7 +428,7 @@ class _$HomeStateError implements HomeStateError {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(Map<String, dynamic> data) $default, {
+    TResult Function(Map<String, dynamic> data, Placemark location) $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
     required TResult Function(String message) nonePerMission,
@@ -425,7 +439,7 @@ class _$HomeStateError implements HomeStateError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(Map<String, dynamic> data)? $default, {
+    TResult Function(Map<String, dynamic> data, Placemark location)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     TResult Function(String message)? nonePerMission,
@@ -436,7 +450,7 @@ class _$HomeStateError implements HomeStateError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Map<String, dynamic> data)? $default, {
+    TResult Function(Map<String, dynamic> data, Placemark location)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     TResult Function(String message)? nonePerMission,
@@ -562,7 +576,7 @@ class _$HomeStateNonePerMission implements HomeStateNonePerMission {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(Map<String, dynamic> data) $default, {
+    TResult Function(Map<String, dynamic> data, Placemark location) $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
     required TResult Function(String message) nonePerMission,
@@ -573,7 +587,7 @@ class _$HomeStateNonePerMission implements HomeStateNonePerMission {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(Map<String, dynamic> data)? $default, {
+    TResult Function(Map<String, dynamic> data, Placemark location)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     TResult Function(String message)? nonePerMission,
@@ -584,7 +598,7 @@ class _$HomeStateNonePerMission implements HomeStateNonePerMission {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Map<String, dynamic> data)? $default, {
+    TResult Function(Map<String, dynamic> data, Placemark location)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     TResult Function(String message)? nonePerMission,

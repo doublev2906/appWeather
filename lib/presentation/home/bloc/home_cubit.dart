@@ -9,7 +9,7 @@ import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState>{
   HomeCubit() : super( const HomeState.loading());
-  final baseApiService = BaseApiService(check: false);
+  final baseApiService = BaseApiService(check: true);
   final geolocatorPlatform = GeolocatorPlatform.instance;
 
 
@@ -22,9 +22,8 @@ class HomeCubit extends Cubit<HomeState>{
         //21.4040773976114, 106.13697655556724
         final position = await Geolocator.getCurrentPosition();
         final place = await placemarkFromCoordinates(position.latitude,position.longitude);
-        // final data = await baseApiService.getWeatherWithLocation(lat: position.latitude.toString(), lon:position.longitude.toString());
-        final data = await baseApiService.getCurrentLocation(lat: position.latitude.toString(), lon:position.longitude.toString());
-        emit(HomeStateData(data));
+        final data = await baseApiService.getWeatherForecast(lat: position.latitude.toString(), lon:position.longitude.toString());
+        emit(HomeStateData(data,place[4]));
       }
     }catch(e){
       emit(HomeState.error(e));
