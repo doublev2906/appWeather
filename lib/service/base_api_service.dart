@@ -23,7 +23,7 @@ class BaseApiService extends RemoteApiService{
 
   Future<Map<String,dynamic>> getWeatherForecast({required String lat, required String lon,int days = 7}) async {
     try{
-      final response = await dio.get("v1/forecast.json?key=${BuildConfig.apiKey}&q=$lat,$lon&days=$days");
+      final response = await dio.get("v1/forecast.json?key=${BuildConfig.apiKey}&q=$lat,$lon&days=$days&aqi=yes");
       print(response.data);
       return response.data as Map<String,dynamic>;
     }catch(e){

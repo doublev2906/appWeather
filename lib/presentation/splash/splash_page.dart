@@ -1,7 +1,12 @@
+import 'package:app_weather/common/injector.dart';
 import 'package:app_weather/common/navigator/navigation/navigation.dart';
 import 'package:app_weather/common/navigator/router/app_router.dart';
 import 'package:app_weather/presentation/home/home_page.dart';
+import 'package:app_weather/presentation/main/bloc/main_page_bloc.dart';
+import 'package:app_weather/presentation/splash/splash_cubit.dart';
+import 'package:app_weather/presentation/splash/splash_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 
 class SplashPage extends StatefulWidget {
@@ -14,22 +19,25 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        nativeToHomePage(context);
-        return Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/images/im_background.png"),fit: BoxFit.fill)
-          ),
-        );
+    return BlocListener<SplashCubit, SplashSate>(
+      bloc: sl.get<SplashCubit>()..init(),
+      listener: (context, state) async {
+        if(state.navigateToMain){
+          await context.read<MainPageBloc>().init();
+          navigation.replaceTo(AppRouter.main);
+        }
       },
+      child: Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/im_background.png"),
+                fit: BoxFit.fill)),
+      ),
     );
   }
 
-  Future nativeToHomePage(BuildContext context) async{
-    WidgetsBinding.instance.addPostFrameCallback((_){
-
+  Future nativeToHomePage(BuildContext context) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(milliseconds: 2000)).then((value) async {
         await Geolocator.requestPermission();
         navigation.replaceTo(AppRouter.home);

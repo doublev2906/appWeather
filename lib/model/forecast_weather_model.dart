@@ -242,7 +242,8 @@ class Astro {
 }
 
 class Day {
-  Day({
+  Day( {
+    required this.airQuality,
     required this.maxtempC,
     required this.maxtempF,
     required this.mintempC,
@@ -284,6 +285,7 @@ class Day {
   final int dailyWillItSnow;
   final int dailyChanceOfSnow;
   final Condition condition;
+  final AirQuality airQuality;
   final double uv;
 
   factory Day.fromJson(Map<String, dynamic> json) => Day(
@@ -306,6 +308,7 @@ class Day {
     dailyWillItSnow: json["daily_will_it_snow"],
     dailyChanceOfSnow: json["daily_chance_of_snow"],
     condition: Condition.fromJson(json["condition"]),
+    airQuality: AirQuality.fromJson(json["air_quality"]),
     uv: json["uv"],
   );
 
@@ -520,3 +523,47 @@ class Location {
     "localtime": localtime,
   };
 }
+class AirQuality {
+  final double co;
+  final double no2;
+  final double o3;
+  final double so2;
+  final double pm25;
+  final double pm10;
+  final int usEpaIndex;
+  final int gbDefraIndex;
+
+  AirQuality(
+      {required this.co,
+        required this.no2,
+        required this.o3,
+        required this.so2,
+        required this.pm25,
+        required this.pm10,
+        required this.usEpaIndex,
+        required this.gbDefraIndex});
+
+  factory AirQuality.fromJson(Map<String,dynamic> json) => AirQuality(
+      co: json['co']??0,
+      no2: json['no2']??0,
+      o3: json['o3']??0,
+      so2: json['so2']??0,
+      pm25: json['pm2_5']??0,
+      pm10: json['pm10']??0,
+      usEpaIndex: json['us-epa-index']??0,
+      gbDefraIndex: json['gb-defra-index']??0);
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['co'] = co;
+    data['no2'] = no2;
+    data['o3'] = o3;
+    data['so2'] = so2;
+    data['pm2_5'] = pm25;
+    data['pm10'] = pm10;
+    data['us-epa-index'] = usEpaIndex;
+    data['gb-defra-index'] = gbDefraIndex;
+    return data;
+  }
+}
+

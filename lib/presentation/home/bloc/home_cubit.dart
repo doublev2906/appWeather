@@ -1,8 +1,11 @@
+import 'package:app_weather/model/city_model.dart';
+import 'package:app_weather/presentation/main/bloc/main_page_bloc.dart';
 import 'package:app_weather/service/base_api_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../../../common/injector.dart';
 import 'home_state.dart';
 
 
@@ -11,19 +14,18 @@ class HomeCubit extends Cubit<HomeState>{
   HomeCubit() : super( const HomeState.loading());
   final baseApiService = BaseApiService(check: true);
   final geolocatorPlatform = GeolocatorPlatform.instance;
+  CityModel? currentCity;
 
 
-  init() async {
+  init(CityModel city) async {
     emit(const HomeState.loading());
+    sl.get<MainPageBloc>().hideIndicator();
     try{
       final checkPermission = await handlerPermission();
       if(checkPermission){
-        //21.03731702717133, 105.78255499661951
-        //21.4040773976114, 106.13697655556724
-        final position = await Geolocator.getCurrentPosition();
-        final place = await placemarkFromCoordinates(position.latitude,position.longitude);
-        final data = await baseApiService.getWeatherForecast(lat: position.latitude.toString(), lon:position.longitude.toString());
-        emit(HomeStateData(data,place[4]));
+        final data = await baseApiService.getWeatherForecast(lat: city.latitude.toString(), lon:city.longitude.toString());
+        emit(HomeStateData(data,city.name));
+        sl.get<MainPageBloc>().showIndicator();
       }
     }catch(e){
       emit(HomeState.error(e));

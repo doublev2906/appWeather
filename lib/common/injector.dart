@@ -1,4 +1,7 @@
 
+import 'package:app_weather/presentation/city/bloc/city_bloc.dart';
+import 'package:app_weather/presentation/main/bloc/main_page_bloc.dart';
+import 'package:app_weather/presentation/splash/splash_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,5 +30,10 @@ Future initializeDependencies() async {
 }
 void injectorBloc() {
   sl.registerSingleton(HomeCubit());
+  sl.registerSingleton(CityBloc());
+  sl.registerSingleton(SplashCubit());
+  sl.registerSingleton(MainPageBloc());
+  sl.registerSingleton<List<HomeCubit>>([]);
+  // sl.registerLazySingleton<List<HomeCubit>>(()=>[]);
 
 }

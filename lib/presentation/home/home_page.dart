@@ -1,20 +1,30 @@
+import 'package:app_weather/common/navigator/navigation/navigation.dart';
+import 'package:app_weather/common/navigator/router/app_router.dart';
+import 'package:app_weather/config/constant.dart';
+import 'package:app_weather/model/city_model.dart';
 import 'package:app_weather/model/current_weather_model.dart';
 import 'package:app_weather/presentation/home/bloc/home_cubit.dart';
 import 'package:app_weather/presentation/home/bloc/home_state.dart';
+import 'package:app_weather/presentation/main/bloc/main_page_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../common/injector.dart';
 import '../../model/forecast_weather_model.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final CityModel city;
+  bool? isDay;
+  HomePage({Key? key, required this.city}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
+
+
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<HomePage>{
   late final HomeCubit _bloc;
   var top = 0.0;
   final scrollController = ScrollController();
@@ -23,8 +33,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _bloc = HomeCubit()
-      ..init();
+    _bloc = HomeCubit()..init(widget.city);
   }
 
   bool isAppBarExpanded() {
@@ -41,17 +50,18 @@ class _HomePageState extends State<HomePage> {
           builder: (context, state) {
             return state.when((data, location) {
               final mData = ForecastWeatherModel.fromJson(data);
+              widget.isDay = mData.current.isDay == 1;
+              context.read<MainPageBloc>().setDay(mData.current.isDay == 1);
               final currentTime = DateFormat("MMM d EE").format(DateTime.now());
               final listHours = calculateHourArray(mData);
               return DefaultTextStyle(
-                style: const TextStyle(color: Colors.white),
-
+                style: TextStyle(color:mData.current.isDay != 1 ? Colors.white : Colors.black),
                 child: Container(
                   color: Colors.white,
                   child: Stack(
                     children: [
                       Container(
-                        color: Colors.lightBlueAccent,
+                        color: mData.current.isDay != 1 ? Color(0xff1D212C) : Color(0xfffafafa),
                       ),
                       CustomScrollView(
                         controller: scrollController,
@@ -59,42 +69,35 @@ class _HomePageState extends State<HomePage> {
                           SliverLayoutBuilder(builder: (context, mConstraints) {
                             final scrolled = mConstraints.scrollOffset >
                                 (180 - kToolbarHeight);
+                            if(scrolled){
+                              sl.get<MainPageBloc>().hideIndicator();
+                            }else{
+                              sl.get<MainPageBloc>().showIndicator();
+                            }
                             return SliverAppBar(
                                 expandedHeight: 180.0,
                                 floating: false,
                                 pinned: true,
                                 backgroundColor: scrolled
-                                    ? Colors.blueGrey
+                                    ? mData.current.isDay != 1 ? Color(0xff1D212C) : Color(0xfffafafa)
                                     : Colors.transparent,
                                 elevation: 0,
                                 bottom: PreferredSize(
                                     preferredSize: const Size.fromHeight(4.0),
                                     child: Container(
                                       color: scrolled
-                                          ? Colors.white
+                                          ?mData.current.isDay != 1 ? Color(0xff2C3039) : Color(0xffEEEEEE)
                                           : Colors.transparent,
-                                      height: 1.0,
+                                      height: 0.8,
                                     )),
-                                actions: [
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                        Icons.article_outlined,
-                                        color: Colors.white,
-                                      )),
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.more_vert,
-                                          color: Colors.white))
-                                ],
                                 flexibleSpace: FlexibleSpaceBar(
                                   titlePadding: const EdgeInsets.only(
                                       left: 16, bottom: 12),
                                   expandedTitleScale: 1.8,
                                   title: Text(
-                                    location.name ?? "",
+                                    location,
                                     textAlign: TextAlign.start,
-                                    style: const TextStyle(fontSize: 20.0),
+                                    style:DefaultTextStyle.of(context).style.copyWith(fontSize: 20),
                                   ),
                                 ));
                           }),
@@ -250,7 +253,7 @@ class _HomePageState extends State<HomePage> {
                                                           Padding(
                                                             padding: const EdgeInsets
                                                                 .only(
-                                                                right: 16),
+                                                                right: 12),
                                                             child:
                                                              Text(
                                                                 "${itemData.day.maxtempC.round()} / ${itemData.day.mintempC.round()}°C"),
@@ -297,15 +300,15 @@ class _HomePageState extends State<HomePage> {
                                             childAspectRatio: 2
                                         ),
                                         children: [
-                                          buildWeatherDetailWidget("Feel like", "29°C"),
-                                          buildWeatherDetailWidget("Humidity", "90%"),
-                                          buildWeatherDetailWidget("SSW wind", "Level 1"),
-                                          buildWeatherDetailWidget("UV", "Very weak"),
-                                          buildWeatherDetailWidget("Visibility", "9 km"),
-                                          buildWeatherDetailWidget("Air pressure", "1011 hPa"),
-                                          buildWeatherDetailWidget("Change of rain", "3%"),
-                                          buildWeatherDetailWidget("Sunrise", "06:16"),
-                                          buildWeatherDetailWidget("Sunset", "17:13"),
+                                          buildWeatherDetailWidget("Feel like", "${mData.current.feelslikeC.round()}°C"),
+                                          buildWeatherDetailWidget("Humidity", "${mData.current.humidity}%"),
+                                          buildWeatherDetailWidget("SSW wind", "${mData.current.windMph}"),
+                                          buildWeatherDetailWidget("UV", "${mData.current.uv}"),
+                                          buildWeatherDetailWidget("Visibility", "${mData.current.visKm}"),
+                                          buildWeatherDetailWidget("Air pressure", airQualityConst["${mData.forecast.forecastday[0].day.airQuality.usEpaIndex}"]!),
+                                          buildWeatherDetailWidget("Change of rain", "${mData.forecast.forecastday[0].day.dailyChanceOfRain}%"),
+                                          buildWeatherDetailWidget("Sunrise", mData.forecast.forecastday[0].astro.sunrise),
+                                          buildWeatherDetailWidget("Sunset", mData.forecast.forecastday[0].astro.sunset),
                                         ],
 
                                       ),
@@ -338,7 +341,7 @@ class _HomePageState extends State<HomePage> {
       }
     }
     int length = 24 - dateTimes.length;
-    for (int i = 0; i <= length; i++) {
+    for (int i = 0; i < length; i++) {
       dateTimes.add(data.forecast.forecastday[1].hour[i]);
     }
     return dateTimes;
@@ -361,4 +364,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

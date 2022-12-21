@@ -1,3 +1,5 @@
+
+
 class Constant{
 
 }
@@ -212,3 +214,11 @@ class WeatherCondition{
     395
   ];
 }
+const airQualityConst = {
+  "1":"Good",
+  "2":"Moderate",
+  "3":"Unhealthy",
+  "4":"Unhealthy",
+  "5":"Very Unhealthy",
+  "6":"Hazardous",
+};

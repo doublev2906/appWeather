@@ -18,21 +18,21 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CityState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<CityModel> data) $default, {
+    TResult Function(CurrentWeatherModel data) $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<CityModel> data)? $default, {
+    TResult Function(CurrentWeatherModel data)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<CityModel> data)? $default, {
+    TResult Function(CurrentWeatherModel data)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     required TResult orElse(),
@@ -82,7 +82,7 @@ abstract class _$$CityStateDataCopyWith<$Res> {
   factory _$$CityStateDataCopyWith(
           _$CityStateData value, $Res Function(_$CityStateData) then) =
       __$$CityStateDataCopyWithImpl<$Res>;
-  $Res call({List<CityModel> data});
+  $Res call({CurrentWeatherModel data});
 }
 
 /// @nodoc
@@ -101,9 +101,9 @@ class __$$CityStateDataCopyWithImpl<$Res> extends _$CityStateCopyWithImpl<$Res>
   }) {
     return _then(_$CityStateData(
       data == freezed
-          ? _value._data
+          ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<CityModel>,
+              as CurrentWeatherModel,
     ));
   }
 }
@@ -111,14 +111,10 @@ class __$$CityStateDataCopyWithImpl<$Res> extends _$CityStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CityStateData implements CityStateData {
-  const _$CityStateData(final List<CityModel> data) : _data = data;
+  const _$CityStateData(this.data);
 
-  final List<CityModel> _data;
   @override
-  List<CityModel> get data {
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_data);
-  }
+  final CurrentWeatherModel data;
 
   @override
   String toString() {
@@ -130,12 +126,12 @@ class _$CityStateData implements CityStateData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CityStateData &&
-            const DeepCollectionEquality().equals(other._data, _data));
+            const DeepCollectionEquality().equals(other.data, data));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
 
   @JsonKey(ignore: true)
   @override
@@ -145,7 +141,7 @@ class _$CityStateData implements CityStateData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<CityModel> data) $default, {
+    TResult Function(CurrentWeatherModel data) $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
   }) {
@@ -155,7 +151,7 @@ class _$CityStateData implements CityStateData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<CityModel> data)? $default, {
+    TResult Function(CurrentWeatherModel data)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
   }) {
@@ -165,7 +161,7 @@ class _$CityStateData implements CityStateData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<CityModel> data)? $default, {
+    TResult Function(CurrentWeatherModel data)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     required TResult orElse(),
@@ -212,9 +208,9 @@ class _$CityStateData implements CityStateData {
 }
 
 abstract class CityStateData implements CityState {
-  const factory CityStateData(final List<CityModel> data) = _$CityStateData;
+  const factory CityStateData(final CurrentWeatherModel data) = _$CityStateData;
 
-  List<CityModel> get data;
+  CurrentWeatherModel get data;
   @JsonKey(ignore: true)
   _$$CityStateDataCopyWith<_$CityStateData> get copyWith =>
       throw _privateConstructorUsedError;
@@ -261,7 +257,7 @@ class _$CityStateLoading implements CityStateLoading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<CityModel> data) $default, {
+    TResult Function(CurrentWeatherModel data) $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
   }) {
@@ -271,7 +267,7 @@ class _$CityStateLoading implements CityStateLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<CityModel> data)? $default, {
+    TResult Function(CurrentWeatherModel data)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
   }) {
@@ -281,7 +277,7 @@ class _$CityStateLoading implements CityStateLoading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<CityModel> data)? $default, {
+    TResult Function(CurrentWeatherModel data)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     required TResult orElse(),
@@ -395,7 +391,7 @@ class _$CityStateError implements CityStateError {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<CityModel> data) $default, {
+    TResult Function(CurrentWeatherModel data) $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
   }) {
@@ -405,7 +401,7 @@ class _$CityStateError implements CityStateError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<CityModel> data)? $default, {
+    TResult Function(CurrentWeatherModel data)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
   }) {
@@ -415,7 +411,7 @@ class _$CityStateError implements CityStateError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<CityModel> data)? $default, {
+    TResult Function(CurrentWeatherModel data)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     required TResult orElse(),
