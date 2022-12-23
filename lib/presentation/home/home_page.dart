@@ -6,8 +6,10 @@ import 'package:app_weather/model/current_weather_model.dart';
 import 'package:app_weather/presentation/home/bloc/home_cubit.dart';
 import 'package:app_weather/presentation/home/bloc/home_state.dart';
 import 'package:app_weather/presentation/main/bloc/main_page_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:intl/intl.dart';
 
 import '../../common/injector.dart';
@@ -16,7 +18,8 @@ import '../../model/forecast_weather_model.dart';
 class HomePage extends StatefulWidget {
   final CityModel city;
   bool? isDay;
-  HomePage({Key? key, required this.city}) : super(key: key);
+  final bool isCurrentCity;
+  HomePage({Key? key, required this.city,this.isCurrentCity = false}) : super(key: key);
 
   @override
   HomePageState createState() => HomePageState();
@@ -54,6 +57,7 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<H
               context.read<MainPageBloc>().setDay(mData.current.isDay == 1);
               final currentTime = DateFormat("MMM d EE").format(DateTime.now());
               final listHours = calculateHourArray(mData);
+              setHomeWidget(mData);
               return DefaultTextStyle(
                 style: TextStyle(color:mData.current.isDay != 1 ? Colors.white : Colors.black),
                 child: Container(
@@ -61,7 +65,7 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<H
                   child: Stack(
                     children: [
                       Container(
-                        color: mData.current.isDay != 1 ? Color(0xff1D212C) : Color(0xfffafafa),
+                        color: mData.current.isDay != 1 ? const Color(0xff1D212C) : const Color(0xfffafafa),
                       ),
                       CustomScrollView(
                         controller: scrollController,
@@ -79,14 +83,14 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<H
                                 floating: false,
                                 pinned: true,
                                 backgroundColor: scrolled
-                                    ? mData.current.isDay != 1 ? Color(0xff1D212C) : Color(0xfffafafa)
+                                    ? mData.current.isDay != 1 ? const Color(0xff1D212C) : const Color(0xfffafafa)
                                     : Colors.transparent,
                                 elevation: 0,
                                 bottom: PreferredSize(
                                     preferredSize: const Size.fromHeight(4.0),
                                     child: Container(
                                       color: scrolled
-                                          ?mData.current.isDay != 1 ? Color(0xff2C3039) : Color(0xffEEEEEE)
+                                          ?mData.current.isDay != 1 ? const Color(0xff2C3039) : const Color(0xffEEEEEE)
                                           : Colors.transparent,
                                       height: 0.8,
                                     )),
@@ -162,7 +166,7 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<H
                                           final itemData = listHours[index];
                                           final time = itemData.time.split(
                                               " ")[1];
-                                          return Container(
+                                          return SizedBox(
                                             height: 80,
                                             width: 60,
                                             child: Column(
@@ -172,9 +176,11 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<H
                                                 Text(time),
                                                 SizedBox(
                                                   height: 40,
-                                                  child: Image.network(
-                                                    "https:${itemData.condition
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: "https:${itemData.condition
                                                         .icon}",
+                                                    placeholder: (context, url) => const CircularProgressIndicator(),
+                                                    errorWidget: (context, url, error) => const Icon(Icons.error),
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
@@ -217,7 +223,7 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<H
                                           padding: EdgeInsets.zero,
                                           itemBuilder: (_, i) {
                                             final itemData = mData.forecast.forecastday[i];
-                                            return Container(
+                                            return SizedBox(
                                               height: 32,
                                               child: Row(
                                                 children: [
@@ -225,9 +231,11 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<H
                                                     width: 100,
                                                     child:  Text(i==0?"Today":i==1?"Tomorrow":DateFormat("EEE").format(itemData.date)),
                                                   ),
-                                                  Image.network(
-                                                    "https:${itemData.day.condition
+                                                  CachedNetworkImage(
+                                                    imageUrl: "https:${itemData.day.condition
                                                         .icon}",
+                                                    placeholder: (context, url) => const CircularProgressIndicator(),
+                                                    errorWidget: (context, url, error) => const Icon(Icons.error,color: Colors.redAccent,),
                                                     fit: BoxFit.cover,
                                                     height: 32,
                                                     width: 32,
@@ -347,6 +355,17 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<H
     return dateTimes;
   }
 
+  setHomeWidget(ForecastWeatherModel data) async {
+    if(widget.isCurrentCity){
+      await HomeWidget.saveWidgetData<String>("temp","${data.current.tempC.round()}");
+      await HomeWidget.saveWidgetData<bool>("isDay",data.current.isDay == 1);
+      await HomeWidget.saveWidgetData<String>("imageUrl", "https:${data.current.condition.icon}");
+      await HomeWidget.saveWidgetData<String>("des","${data.forecast.forecastday[0].day.maxtempC.round()}°C / ${data.forecast.forecastday[0].day.mintempC.round()}°C ${data.current.condition.text}");
+      await HomeWidget.saveWidgetData<String>("location",widget.city.name);
+      await HomeWidget.updateWidget(name: 'AppWidgetProvider');
+    }
+  }
+
 
   buildWeatherDetailWidget(String title, String content){
     return SizedBox(
@@ -359,7 +378,7 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<H
           Text(content,style: const TextStyle(
             fontSize: 26,
             fontWeight: FontWeight.w400
-          ),)
+          ),textAlign: TextAlign.center,)
         ],
       ),
     );

@@ -42,7 +42,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin  {
                     return oldSate.cities.length != newSate.cities.length;
                   },
                   builder: (context,state) {
-                    final listItem = state.cities.map((e) => HomePage(city: e,)).toList();
+                    final listItem = state.cities.map((e) => HomePage(city: e,isCurrentCity: e == state.cities.first,)).toList();
                     return PageView(
                       controller: pageController,
                         onPageChanged: (i){

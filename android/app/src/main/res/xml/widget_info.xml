@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/weather_home"
+    android:minWidth="270dp"
+    android:minHeight="40dp"
+    android:minResizeHeight="40dp"
+    android:minResizeWidth="270dp"
+    android:resizeMode="vertical"
+    android:previewImage="@drawable/background_home_widget"
+    android:widgetCategory="home_screen" />
