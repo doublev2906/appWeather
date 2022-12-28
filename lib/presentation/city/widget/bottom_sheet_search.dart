@@ -170,7 +170,7 @@ class _BottomSheetSearchState extends State<BottomSheetSearch> {
                         selectedColor: Colors.black,
                         onSelected: (selected) {
                           e.isSelected = true;
-                          e.data.timeAdd = DateTime.now().microsecondsSinceEpoch;
+                          e.data.timeAdd = DateTime.now().millisecondsSinceEpoch;
                           e.save();
                           context.read<CityCBloc>().addData(Item(data: e.data));
                           context.read<MainPageBloc>().addData(e.data);

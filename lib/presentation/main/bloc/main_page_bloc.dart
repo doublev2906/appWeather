@@ -52,6 +52,6 @@ class MainPageBloc extends Cubit<MainPageSate>{
         return city.timeAdd == e.timeAdd;
       });
 
-    emit(state.copyWith(cities: [...data]));
+    emit(state.copyWith(cities: [...data],index: 0));
   }
 }

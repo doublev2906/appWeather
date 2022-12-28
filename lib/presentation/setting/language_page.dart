@@ -2,8 +2,6 @@ import 'package:app_weather/generated/l10n.dart';
 import 'package:app_weather/model/language_entity.dart';
 import 'package:app_weather/util/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:group_radio_button/group_radio_button.dart';
-import 'package:settings_ui/settings_ui.dart';
 import 'package:toast/toast.dart';
 
 class LanguagePage extends StatefulWidget {

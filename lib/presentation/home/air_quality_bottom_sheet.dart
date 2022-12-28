@@ -72,10 +72,12 @@ class _AirQualityBottomSheetState extends State<AirQualityBottomSheet> {
                 ),
               ),
               const SizedBox(width: 20,),
-              Text(getAirQualityText(widget.quality.usEpaIndex),style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500
-              ),)
+              Expanded(
+                child: Text(getAirQualityText(widget.quality.usEpaIndex),style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500
+                ),),
+              )
             ],
 
           ),

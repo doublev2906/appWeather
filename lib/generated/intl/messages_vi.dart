@@ -40,7 +40,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "level1": MessageLookupByLibrary.simpleMessage("Tốt"),
         "level2": MessageLookupByLibrary.simpleMessage("Vừa phải"),
         "level3": MessageLookupByLibrary.simpleMessage(
-            "Không tốt cho một số người nhạy cảm"),
+            "Không tốt cho người nhạy cảm"),
         "level4": MessageLookupByLibrary.simpleMessage("Không tốt"),
         "level5": MessageLookupByLibrary.simpleMessage("Ô nhiễm"),
         "level6": MessageLookupByLibrary.simpleMessage("Nguy hiểm"),

@@ -437,7 +437,8 @@ class HomePageState extends State<HomePage>
             SizedBox(
               width: 4,
             ),
-            Text(getAirQualityText(quality.usEpaIndex))
+            Text(
+                "US-EPA ${quality.usEpaIndex} (${getAirQualityText(quality.usEpaIndex)})",overflow: TextOverflow.ellipsis,)
           ],
         ),
       ),

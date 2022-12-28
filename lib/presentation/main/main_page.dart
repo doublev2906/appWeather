@@ -64,9 +64,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin  {
                     );
                   }
                 ),
-                Builder(
-                  builder: (context) {
-                    final state = context.watch<MainPageBloc>().state;
+                BlocBuilder<MainPageBloc,MainPageSate>(
+                  bloc: context.read(),
+                  builder: (context,state) {
                     controller = TabController(length: state.cities.length, vsync: this);
                     return Visibility(
                       visible: state.showIndicator,
@@ -87,6 +87,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin  {
                 Builder(
                   builder: (context) {
                     final isDay = context.watch<MainPageBloc>().state.isDay;
+                    final i = context.watch<MainPageBloc>().state.index;
                     return Positioned(
                       top: 45,
                         right: 8,
@@ -98,6 +99,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin  {
                                           (value){
                                             if(value != null){
                                               pageController.jumpToPage(value);
+                                            }else{
+                                              pageController.jumpToPage(i);
                                             }
 
                                           });

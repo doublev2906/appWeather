@@ -4,7 +4,6 @@ import 'package:app_weather/util/box.dart';
 import 'package:app_weather/util/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:settings_ui/settings_ui.dart';
 
 import '../../common/navigator/navigation/navigation.dart';
 
