@@ -222,3 +222,11 @@ const airQualityConst = {
   "5":"Very Unhealthy",
   "6":"Hazardous",
 };
+const airQualityConstVi = {
+  "1":"Tốt",
+  "2":"Vừa phải",
+  "3":"Không tốt cho một số người nhạy cảm",
+  "4":"Không tốt",
+  "5":"Ô nhiễm",
+  "6":"Nguy hiểm",
+};

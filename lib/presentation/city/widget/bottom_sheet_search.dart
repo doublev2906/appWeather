@@ -1,3 +1,4 @@
+import 'package:app_weather/generated/l10n.dart';
 import 'package:app_weather/model/item.dart';
 import 'package:app_weather/presentation/city/bloc/bottom_sheet_bloc.dart';
 import 'package:app_weather/presentation/city/bloc/bottom_sheet_state.dart';
@@ -7,6 +8,8 @@ import 'package:app_weather/presentation/main/bloc/main_page_bloc.dart';
 import 'package:app_weather/util/box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../util/widget.dart';
 
 class BottomSheetSearch extends StatefulWidget {
   const BottomSheetSearch({Key? key}) : super(key: key);
@@ -51,15 +54,15 @@ class _BottomSheetSearchState extends State<BottomSheetSearch> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
-                      child: _buildHandle(context),
+                      child: buildHandle(context),
                     ),
                     const SizedBox(
                       height: 8,
                     ),
-                    const Center(
+                     Center(
                       child: Text(
-                        "Add City",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                        S.current.add_city,
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                     ),
                     SearchWidget(
@@ -73,7 +76,7 @@ class _BottomSheetSearchState extends State<BottomSheetSearch> {
                         onSubmit: (text) {
                           bloc.onSearching(text);
                         },
-                        hintText: "Search for city"),
+                        hintText: S.current.search_city_hint),
                     const SizedBox(
                       height: 24,
                     ),
@@ -82,8 +85,8 @@ class _BottomSheetSearchState extends State<BottomSheetSearch> {
                             state.status == BottomSheetStatus.loading,
                         child: Center(
                           child: state.status == BottomSheetStatus.onSearch
-                              ? const Text(
-                                  "Tap Search to start searching.",
+                              ?  Text(
+                            S.current.search_city_label,
                                   style: TextStyle(color: Colors.grey),
                                 )
                               : const CircularProgressIndicator(),
@@ -122,9 +125,9 @@ class _BottomSheetSearchState extends State<BottomSheetSearch> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          buildListCity("TOP CITIES", topCites),
+                          buildListCity(S.current.top_cites, topCites),
                           const SizedBox(height: 16),
-                          buildListCity("TOP CITIES - WORLD", topCitesWorld),
+                          buildListCity(S.current.top_cites_world, topCitesWorld),
                         ],
                       ),
                     )
@@ -136,25 +139,7 @@ class _BottomSheetSearchState extends State<BottomSheetSearch> {
     );
   }
 
-  Widget _buildHandle(BuildContext context) {
-    final theme = Theme.of(context);
 
-    return FractionallySizedBox(
-      widthFactor: 0.08,
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          vertical: 12.0,
-        ),
-        child: Container(
-          height: 2,
-          decoration: BoxDecoration(
-            color: theme.dividerColor,
-            borderRadius: const BorderRadius.all(Radius.circular(2.5)),
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget buildListCity(String title, List<Item> data) {
     return Column(

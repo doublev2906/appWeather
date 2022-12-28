@@ -3,17 +3,22 @@ import 'dart:async';
 import 'package:app_weather/common/injector.dart' ;
 import 'package:app_weather/common/navigator/navigation/navigation.dart';
 import 'package:app_weather/common/navigator/router/app_router.dart';
+import 'package:app_weather/generated/l10n.dart';
 import 'package:app_weather/model/item.dart';
+import 'package:app_weather/model/language_entity.dart';
 import 'package:app_weather/presentation/city/bloc/city_c_bloc.dart';
 import 'package:app_weather/presentation/city/city_page.dart';
 import 'package:app_weather/presentation/home/bloc/home_cubit.dart';
 import 'package:app_weather/presentation/main/bloc/main_page_bloc.dart';
 import 'package:app_weather/util/box.dart';
+import 'package:app_weather/util/settings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:toast/toast.dart';
 import 'dart:developer' as developer;
 import 'common/navigator/router/router_module.dart';
 import 'common/navigator/router/router_observer.dart';
@@ -36,10 +41,13 @@ Future<void> main() async {
     await Hive.initFlutter();
     Hive.registerAdapter(CityModelAdapter());
     Hive.registerAdapter(ItemAdapter());
+    Hive.registerAdapter(LanguageEntityAdapter());
     await Hive.openBox<CityModel>('citys');
     await Hive.openBox<Item>('topCities');
     await Hive.openBox<Item>('topCitiesWorld');
+    await Hive.openBox<LanguageEntity?>('currentLanguage');
     initCities();
+    initLanguage();
     await Future.delayed(
       const Duration(seconds: 1),
     );
@@ -63,6 +71,16 @@ Future<void> main() async {
   });
 
   runApp(const MyApp());
+}
+
+void initLanguage() {
+  LanguageEntity? language;
+  if(Boxes.getLanguage().isEmpty){
+    language = null;
+  }else{
+    language = Boxes.getLanguage().values.cast<LanguageEntity?>().first;
+  }
+  Setting.init(language);
 }
 
 void initCities() {
@@ -113,6 +131,13 @@ class MyApp extends StatelessWidget {
           darkTheme: ThemeData.dark(),
           navigatorObservers: [sl.get<AppRouteObserver>()],
           debugShowCheckedModeBanner: false,
+          locale: Locale(Setting.currentLanguage.code),
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate
+          ],
+          supportedLocales: S.delegate.supportedLocales,
           themeMode: ThemeMode.light,
           builder: (context, child){
             return MediaQuery(

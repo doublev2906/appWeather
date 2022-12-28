@@ -1,3 +1,4 @@
+import 'package:app_weather/generated/l10n.dart';
 import 'package:app_weather/model/item.dart';
 import 'package:app_weather/presentation/city/bloc/city_c_bloc.dart';
 import 'package:app_weather/presentation/city/item_widget.dart';
@@ -50,14 +51,14 @@ class _CityPageState extends State<CityPage>
     return Scaffold(
       appBar: AppBar(
         title: !showCheckBox
-            ? const Text(
-                "Manage cities",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+            ? Text(
+          S.current.manage_city,
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
               )
             : Builder(builder: (context) {
                 final index = context.watch<CityCBloc>().state.selectedItem;
                 return Text(
-                  "$index selected",
+                  "$index ${S.current.selected}",
                   style: const TextStyle(
                       fontSize: 15, fontWeight: FontWeight.w400),
                 );
@@ -172,12 +173,12 @@ class _CityPageState extends State<CityPage>
                     },
                     child: Center(
                       child: Column(
-                        children: const [
-                          Icon(Icons.delete_outline),
-                          SizedBox(height: 2),
+                        children:  [
+                          const Icon(Icons.delete_outline),
+                          const SizedBox(height: 2),
                           Text(
-                            "Delete",
-                            style: TextStyle(color: Colors.black, fontSize: 12),
+                            S.current.delete,
+                            style: const TextStyle(color: Colors.black, fontSize: 12),
                           )
                         ],
                       ),

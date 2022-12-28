@@ -4,6 +4,8 @@ import 'package:app_weather/model/city_model.dart';
 import 'package:app_weather/presentation/city/city_page.dart';
 import 'package:app_weather/presentation/home/home_page.dart';
 import 'package:app_weather/presentation/main/main_page.dart';
+import 'package:app_weather/presentation/setting/language_page.dart';
+import 'package:app_weather/presentation/setting/setting_page.dart';
 import 'package:app_weather/presentation/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'router_module.dart';
@@ -14,6 +16,8 @@ class AppRouter extends RouterModule {
   static const String home = '/home';
   static const String city = '/city';
   static const String main = '/main';
+  static const String setting = '/setting';
+  static const String language = '/language';
   //MainPage
 
   @override
@@ -27,6 +31,11 @@ class AppRouter extends RouterModule {
           builder: (context) => const CityPage(), settings: settings),
       AppRouter.main: MaterialPageRoute(
           builder: (context) => const MainPage(), settings: settings),
+      AppRouter.setting: MaterialPageRoute(
+          builder: (context) => const SettingPage(), settings: settings),
+      AppRouter.language: MaterialPageRoute(
+          builder: (context) => const LanguagePage(), settings: settings),
+
     };
   }
 

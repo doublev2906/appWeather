@@ -1,9 +1,12 @@
 import 'package:app_weather/common/navigator/navigation/navigation.dart';
 import 'package:app_weather/common/navigator/router/app_router.dart';
+import 'package:app_weather/generated/l10n.dart';
+import 'package:app_weather/model/language_entity.dart';
 import 'package:app_weather/presentation/home/bloc/home_cubit.dart';
 import 'package:app_weather/presentation/home/home_page.dart';
 import 'package:app_weather/presentation/main/bloc/main_page_bloc.dart';
 import 'package:app_weather/presentation/main/bloc/main_page_state.dart';
+import 'package:app_weather/util/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,6 +36,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin  {
   // final listItem = state.cities.map((e) => HomePage(city: e,)).toList();
   @override
   Widget build(BuildContext context) {
+    Setting.supportLanguage = [
+      LanguageEntity("en", S.current.english),
+      LanguageEntity("vi", S.current.vietnamese)
+    ];
           return Scaffold(
             extendBodyBehindAppBar: true,
             body: Stack(
@@ -100,7 +107,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin  {
                                   color:!isDay ? Color(0xfffafafa):Color(0xff1D212C),
                                 )),
                             IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  navigation.navigateTo(AppRouter.setting);
+                                },
                                 icon:  Icon(Icons.settings,
                                     color: !isDay ? Color(0xfffafafa):Color(0xff1D212C)))
                           ],
