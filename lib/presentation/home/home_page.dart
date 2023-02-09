@@ -165,8 +165,8 @@ class HomePageState extends State<HomePage>
                                   style: const TextStyle(
                                       fontWeight: FontWeight.w500),
                                 ),
-                                buildQualityWidget(mData
-                                    .forecast.forecastday[0].day.airQuality),
+                                // buildQualityWidget(mData
+                                //     .forecast.forecastday[0].day.airQuality),
                                 const SizedBox(
                                   height: 24,
                                 ),

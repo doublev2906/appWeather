@@ -20,9 +20,9 @@ class SplashCubit extends Cubit<SplashSate>{
   init() async {
     try{
       await Geolocator.requestPermission();
-      final position = await Geolocator.getCurrentPosition(forceAndroidLocationManager: true);
-      // final place = await placemarkFromCoordinates(position.latitude,position.longitude);
-      final currentCity = CityModel(name:"Tu Hoàng", latitude: position.latitude, longitude: position.longitude);
+      final position = await Geolocator.getCurrentPosition();
+      final place = await placemarkFromCoordinates(position.latitude,position.longitude);
+      final currentCity = CityModel(name:place[4].name??"", latitude: position.latitude, longitude: position.longitude);
       emit(state.copyWith(currentCity: currentCity,navigateToMain: true));
     }catch(e){
       print(e);

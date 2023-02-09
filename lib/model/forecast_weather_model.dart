@@ -243,7 +243,6 @@ class Astro {
 
 class Day {
   Day( {
-    required this.airQuality,
     required this.maxtempC,
     required this.maxtempF,
     required this.mintempC,
@@ -285,7 +284,6 @@ class Day {
   final int dailyWillItSnow;
   final int dailyChanceOfSnow;
   final Condition condition;
-  final AirQuality airQuality;
   final double uv;
 
   factory Day.fromJson(Map<String, dynamic> json) => Day(
@@ -308,7 +306,6 @@ class Day {
     dailyWillItSnow: json["daily_will_it_snow"],
     dailyChanceOfSnow: json["daily_chance_of_snow"],
     condition: Condition.fromJson(json["condition"]),
-    airQuality: AirQuality.fromJson(json["air_quality"]),
     uv: json["uv"],
   );
 
