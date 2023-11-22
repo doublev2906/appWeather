@@ -25,6 +25,7 @@ class _SplashPageState extends State<SplashPage> {
     return BlocListener<SplashCubit, SplashSate>(
       bloc: sl.get<SplashCubit>()..init(),
       listener: (context, state) async {
+        print("lala");
         if(state.navigateToMain){
           await context.read<MainPageBloc>().init();
           navigation.replaceTo(AppRouter.main);

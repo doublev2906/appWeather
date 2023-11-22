@@ -228,7 +228,7 @@ class Astro {
     moonrise: json["moonrise"],
     moonset: json["moonset"],
     moonPhase: json["moon_phase"],
-    moonIllumination: json["moon_illumination"],
+    moonIllumination: json["moon_illumination"].toString(),
   );
 
   Map<String, dynamic> toJson() => {

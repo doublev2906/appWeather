@@ -22,7 +22,8 @@ class SplashCubit extends Cubit<SplashSate>{
       await Geolocator.requestPermission();
       final position = await Geolocator.getCurrentPosition();
       final place = await placemarkFromCoordinates(position.latitude,position.longitude);
-      final currentCity = CityModel(name:place[4].name??"", latitude: position.latitude, longitude: position.longitude);
+      print(place);
+      final currentCity = CityModel(name:place[0].name??"", latitude: position.latitude, longitude: position.longitude);
       emit(state.copyWith(currentCity: currentCity,navigateToMain: true));
     }catch(e){
       print(e);
